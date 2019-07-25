@@ -7,6 +7,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use  Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 class AdminUserController extends Controller
 {
     /**
@@ -45,30 +46,31 @@ class AdminUserController extends Controller
     public function store(UserRequest $request)
     {
         $input = $request->all();
-
-//   $file = $request->photo_id;
-//     return $file;
-
-        if ($file =  $input['photo_id']) {
+        // // $file = $request->photo_id;
 
 
-            $file = $request->photo_id;
-            $name =  time() . $file;
+        // // return $file;
+        // return $input;
+        // // if ($name = $request->file('photo_id')) {
+        // //     return $name;
 
-                $request->file($file)->move('images', $name);
+        // // }
 
-            // fileMove('images', $name);
+       if($request->file('photo_id')){
+           $name = $request->file('photo_id');
+           $name->move('images', $name);
+        //    return $name;
+        //    $name = $input['photo_id'];
 
-            $photo = Photo::create(['file' => $name]);
-            $input['photo_id'] = $photo->id;
+           $foto = Photo::create(['file' => $name]);
+           $input['photo_id'] = $foto->id;
 
+       }
 
-        }
+       $input['password'] = encrypt($request->password);
+       User::create($input);
 
-            $input['password'] = encrypt($request->password);
-            $User = User::create($input);
-            return redirect('admin/user');
-
+       return redirect('/admin/user');
     }
 
     /**
@@ -90,6 +92,10 @@ class AdminUserController extends Controller
      */
     public function edit($id)
     {
+        $user = User::findOrfail($id);
+        $roles = Role::pluck('name', 'id')->all();
+
+        return view('admin.users.edit', compact('user', 'roles'));
         //
     }
 
@@ -100,9 +106,33 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::findOrfail($id);
+        $input = $request->all();
+        if($request->file('photo_id')){
+            $name = $request->file('photo_id');
+            $name->move('images', $name);
+         //    return $name;
+         //    $name = $input['photo_id'];
+
+            $foto = Photo::create(['file' => $name]);
+            $input['photo_id'] = $foto->id;
+
+        }
+
+        $input['password'] = encrypt($request->password);
+        $user->update($input);
+
+        // $user->update($request->all());
+
+
+        return redirect('admin/user');
+
+
+        // $user->update($id);
+        // return redirect('/admin/user');
+
     }
 
     /**

@@ -4,11 +4,11 @@
 
 @section('content')
     <h1>Create Users</h1>
-    {!! Form::open(['action'=> 'AdminUserController@index' , 'method' => 'POST', 'file'=> true]) !!}
+    {!! Form::open(['action'=> 'AdminUserController@index' , 'method' => 'POST', 'files'=> true]) !!}
     <div class="form-group">
          {{ Form::label("name", 'Name: ', ['class' => 'control-label']) }}
         {!! Form::text('name', null, ['class'=> 'col-md-4, form-control']) !!}
-
+        @csrf
     </div>
     <div class="form-group">
             {{ Form::label("email", 'Email: ', ['class' => 'control-label']) }}
@@ -28,7 +28,11 @@
     </div>
     <div class="form-group">
         {!! Form::label('photo_id', 'Upload Image', ['class'=> 'control-label;']) !!}
-        {!! Form::file('photo_id', null) !!}
+        {!! Form::file('photo_id') !!}
+
+
+{{-- @csrf --}}
+
     </div>
     <div class="form-group">
         {!! Form::label('password', 'Password :', ['class'=> 'control-label']) !!}
