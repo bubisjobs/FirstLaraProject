@@ -16,7 +16,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
      <link href="{{asset('css/app.css')}}" rel="stylesheet">
 
-    <link href="{{asset('css/libs.css')}}" rel="stylesheet">
+    {{-- <link href="{{asset('css/libs.css')}}" rel="stylesheet"> --}}
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -45,6 +45,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">Home</a>
+            {{-- <a class=" navbar-brand" href="#">{{ Auth::user()->name }}</a> --}}
         </div>
         <!-- /.navbar-header -->
 
@@ -125,11 +126,11 @@
                         <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="/users">All Users</a>
+                                <a href="{{ route('user.index') }}">All Users</a>
                             </li>
 
                             <li>
-                                <a href="/users/create">Create User</a>
+                                <a href="{{ route('user.create') }}">Create User</a>
                             </li>
 
                         </ul>
@@ -139,13 +140,20 @@
                     <li>
                         <a href="#"><i class="fa fa-wrench fa-fw"></i> Posts<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
+
                             <li>
-                                <a href="/posts">All Posts</a>
+                                <a href="{{ route('post.index') }}">All Posts</a>
                             </li>
 
                             <li>
-                                <a href="/posts/create">Create Post</a>
+                                <a href="{{ route('post.create') }}">Create Post</a>
                             </li>
+{{--
+                                    <li>
+                                            <a href="{{ route('post.index') }}">All Posts</a>
+                                        </li> --}}
+
+
 
                         </ul>
                         <!-- /.nav-second-level -->
@@ -336,7 +344,7 @@
                 <h1 class="page-header"></h1>
 
                 @yield('content')
-            </div> 
+            </div>
             <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->

@@ -11,13 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/dash', function () {
+    return view('layouts.dashboard');
 });
+
 Route::get('/admin', function(){
     return view('admin.index');
 });
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('admin/user', 'AdminUserController');
+
+Route::group(['middleware' => 'admin'], function () {
+    Route::resource('admin/user', 'AdminUserController');
+    Route::resource('admin/post', 'AdminPostController');
+});
+

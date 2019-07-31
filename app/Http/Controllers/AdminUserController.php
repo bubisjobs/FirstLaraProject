@@ -8,6 +8,7 @@ use App\Role;
 use App\Photo;
 use  Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
 class AdminUserController extends Controller
 {
     /**
@@ -70,6 +71,9 @@ class AdminUserController extends Controller
        $input['password'] = encrypt($request->password);
        User::create($input);
 
+       $request->session()->flash('add', 'User has been added');
+
+
        return redirect('/admin/user');
     }
 
@@ -126,7 +130,7 @@ class AdminUserController extends Controller
 
         // $user->update($request->all());
 
-
+        $request->session()->flash('update', 'User has been Updated');
         return redirect('admin/user');
 
 
@@ -143,6 +147,12 @@ class AdminUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $input = User::findOrfail($id);
+        // return $input;
+        $input->delete();
+    //    session()->flash('delete', 'User has been added');
+       return redirect('admin/user');
+       //A bug that i should fix soon In shaa ALLah
+
     }
 }

@@ -1,6 +1,19 @@
 @extends('layouts.admin')
 @section('content')
+
+    @if (Session::has('add'))
+      <p class="bg-success">{{ session('add') }}</p>
+
+
+    @elseif (Session::has('delete'))
+    <p class="bg-success">{{ session('delete') }}</p>
+    @else(Session::has('update'))
+    <p class="bg-success">{{ session('update') }}</p>
+        @endif
+
 <h1>Users</h1>
+
+{{-- {{  }} --}}
 <table class="table">
     <thead>
       <tr>
@@ -13,6 +26,7 @@
         <th scope="col">created at</th>
         <th scope="col">updated at</th>
         <th> Edit</th>
+        <th>Delete</th>
 
       </tr>
     </thead>
@@ -31,7 +45,10 @@
 
         <td>{{ $user->created_at->diffForHumans() }}</td>
         <td>{{ $user->updated_at->diffForHumans() }}</td> --}}
-        <td> <a href="{{ route('user.edit', $user->id) }}"><button class="btn btnprimary">Edit</button></a></td>
+        <td> <a href="{{ route('user.edit', $user->id) }}"><button class="btn btn-primary">Edit</button></a></td>
+    {!! Form::model($user, ['method'=>'DELETE', 'action'=> ['AdminUserController@destroy', $user->id]]) !!}
+      <td> {!! Form::submit('Delete', ['class'=> 'btn btn-danger']) !!}</td>
+   {!! Form::close() !!}
 
       </tr>
       @endforeach

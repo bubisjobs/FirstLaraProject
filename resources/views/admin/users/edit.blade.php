@@ -62,5 +62,9 @@
    </div>
 
     {!! Form::close() !!}
+
+    {!! Form::open(['method'=>'DELETE', 'action'=> ['AdminUserController@destroy', $user->id]]) !!}
+    <td> {!! Form::submit('Delete', ['class'=> 'btn btn-danger']) !!}</td>
+  {!! Form::close() !!}
 </div>
 @endsection
